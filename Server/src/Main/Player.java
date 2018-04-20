@@ -115,7 +115,7 @@ public class Player extends Thread {
                 playlist.addMedia("media/out" + count + ".mp4");
                 nw[count%numNW]++;
                 System.out.println("add : " + count + " to playlist");
-                if ((System.currentTimeMillis() - start) > (long) time) {
+                if ((double)(System.currentTimeMillis() - start) >  time) {
                     player.playItem(play);
                     start = System.currentTimeMillis() - (long) time;
                     nwlag[count%numNW]++;
@@ -131,7 +131,7 @@ public class Player extends Thread {
                 play++;
                 count++;
                 end = 0;
-            } else if ((System.currentTimeMillis() - start) > (long) time + 5000) {
+            } else if ((double)(System.currentTimeMillis() - start) > time + 5000) {
                 count++;
                 end++;
 
