@@ -31,8 +31,10 @@ public class ServerLiveThread extends Thread {
             //Start Server Thread.
             ServerSocket sSocket = new ServerSocket(0);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            DataInputStream in = new DataInputStream(socket.getInputStream());
             int port = sSocket.getLocalPort();
             out.writeInt(port);
+            int link = in.readInt();
 
             //Server SpeedTest
             ServerFile serverFile = new ServerFile(port + 1);
@@ -44,7 +46,7 @@ public class ServerLiveThread extends Thread {
             int i =0;
             while (true) {
                 Socket socket = sSocket.accept();
-                RecieveStreamFile rFile = new RecieveStreamFile(socket,i);
+                RecieveStreamFile rFile = new RecieveStreamFile(socket,i,link);
                 rFile.start();
                 i++;
             }

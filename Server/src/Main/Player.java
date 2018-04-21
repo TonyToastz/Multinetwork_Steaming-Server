@@ -34,13 +34,15 @@ public class Player extends Thread {
     long start = System.currentTimeMillis();
     MediaListPlayer player;
     MediaList playlist;
+    int link;
 
     public static void main(String[] args) {
-        Player player = new Player();
+        Player player = new Player(3);
         player.start();
     }
 
-    public Player() {
+    public Player(int link) {
+        this.link =link;
     }
 
     public void run() {
@@ -75,7 +77,7 @@ public class Player extends Thread {
         emp.setEnableKeyInputHandling(false);
 
         playlist = mpf.newMediaList();
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= link-1; i++) {
             if (new File("media/out" + i + ".mp4").exists()) {
                 playlist.addMedia("media/out" + i + ".mp4");
                 System.out.println("add : " + i + " to playlist");
@@ -98,30 +100,19 @@ public class Player extends Thread {
         player.setMediaList(playlist);
         player.setMode(MediaListPlayerMode.DEFAULT);
         player.play();
-        int numNW=2;
-        int play = 3;
+        int play = link;
         int end = 0;
-        int [] nw=new int[numNW]; 
-        int nwlag[]=new int[numNW];
-        for(int j=0;j<numNW;j++){
-            nw[j]=0;
-            nwlag[j]=0;
-        }
-        int count = 3;
+        int count = link;
         int lag = 0;
         boolean running = true;
         while (running) {
             if (new File("media/out" + count + ".mp4").exists()) {
                 playlist.addMedia("media/out" + count + ".mp4");
-                nw[count%numNW]++;
                 System.out.println("add : " + count + " to playlist");
                 if ((double)(System.currentTimeMillis() - start) >  time) {
                     player.playItem(play);
                     start = System.currentTimeMillis() - (long) time;
-                    nwlag[count%numNW]++;
                     lag++;
-                    System.out.println("lag : " + lag);
-
                 }
                 String filename = "media/out" + count + ".mp4";
                 IContainer container = IContainer.make();
@@ -149,9 +140,6 @@ public class Player extends Thread {
         }
         System.out.println("Streamng Ending!!");
         System.out.println("total lag : " + lag +" times.");
-        for(int j=0;j<numNW;j++){
-            System.out.println("NW "+(j+1)+" : "+nw[j]+" times. : lag : "+nwlag[j]);
-        }
         
     }
 

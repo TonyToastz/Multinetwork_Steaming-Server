@@ -23,10 +23,12 @@ public class RecieveStreamFile extends Thread {
 
     Socket socket;
     int filename;
+    int link;
 
-    public RecieveStreamFile(Socket socket, int filename) {
+    public RecieveStreamFile(Socket socket, int filename,int link) {
         this.socket = socket;
         this.filename = filename;
+        this.link=link;
     }
 
     public void run() {
@@ -54,8 +56,8 @@ public class RecieveStreamFile extends Thread {
             File newFile = new File("media/out"+filename+".mp4");
             oldFile.renameTo(newFile);
             
-            if(filename==2){
-                Player player =new Player();
+            if(filename==link-1){
+                Player player =new Player(link);
                 player.start();
             }
 
