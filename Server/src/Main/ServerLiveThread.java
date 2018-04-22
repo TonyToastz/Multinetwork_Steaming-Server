@@ -35,6 +35,7 @@ public class ServerLiveThread extends Thread {
             int port = sSocket.getLocalPort();
             out.writeInt(port);
             int link = in.readInt();
+            System.out.println("All Link : "+link);
 
             //Server SpeedTest
             ServerFile serverFile = new ServerFile(port + 1);
