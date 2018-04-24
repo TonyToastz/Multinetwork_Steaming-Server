@@ -24,11 +24,13 @@ public class RecieveStreamFile extends Thread {
     Socket socket;
     int filename;
     int link;
+    long start;
 
-    public RecieveStreamFile(Socket socket, int filename,int link) {
+    public RecieveStreamFile(Socket socket, int filename,int link,long start) {
         this.socket = socket;
         this.filename = filename;
         this.link=link;
+        this.start=start;
     }
 
     public void run() {
@@ -57,6 +59,9 @@ public class RecieveStreamFile extends Thread {
             oldFile.renameTo(newFile);
             
             if(filename==link-1){
+                if(System.currentTimeMillis()-start<40000){
+                    sleep(40000-(System.currentTimeMillis()-start));
+                }
                 Player player =new Player(link);
                 player.start();
             }

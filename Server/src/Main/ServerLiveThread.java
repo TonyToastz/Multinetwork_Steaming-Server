@@ -45,9 +45,14 @@ public class ServerLiveThread extends Thread {
 
             //Reciev File.
             int i =0;
+            boolean fistTime = true;
+            long start =0;
             while (true) {
                 Socket socket = sSocket.accept();
-                RecieveStreamFile rFile = new RecieveStreamFile(socket,i,link);
+                if(fistTime){
+                    start = System.currentTimeMillis();
+                }
+                RecieveStreamFile rFile = new RecieveStreamFile(socket,i,link,start);
                 rFile.start();
                 i++;
             }
