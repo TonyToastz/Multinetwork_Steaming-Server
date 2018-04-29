@@ -47,6 +47,7 @@ public class ServerLiveThread extends Thread {
             int i =0;
             boolean fistTime = true;
             long start =0;
+            long startTime ;
             while (true) {
                 Socket socket = sSocket.accept();
                 if(fistTime){
