@@ -37,7 +37,7 @@ public class Player extends Thread {
     int link;
 
     public static void main(String[] args) {
-        Player player = new Player(3);
+        Player player = new Player(2);
         player.start();
     }
 
@@ -49,7 +49,7 @@ public class Player extends Thread {
         double time = 0;
         JFrame f = new JFrame();
         f.setLocation(100, 50);
-        f.setSize(1000, 600);
+        f.setSize(400, 300);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
 
@@ -95,6 +95,7 @@ public class Player extends Thread {
                 }
             }
         }
+        System.out.println("time : "+time);
         long start = System.currentTimeMillis();
 
         player.setMediaList(playlist);
@@ -112,17 +113,20 @@ public class Player extends Thread {
                 if ((double)(System.currentTimeMillis() - start) >  time) {
                     player.playItem(play);
                     start = System.currentTimeMillis() - (long) time;
+                    
                     lag++;
                 }
                 String filename = "media/out" + count + ".mp4";
                 IContainer container = IContainer.make();
                 int result = container.open(filename, IContainer.Type.READ, null);
                 long duration = container.getDuration();
-                time += (double) duration / 1000.0;
+                time += ((double) duration / 1000.0);
                 play++;
                 count++;
                 end = 0;
-            } else if ((double)(System.currentTimeMillis() - start) > time + 5000) {
+            } else if ((double)(System.currentTimeMillis() - start) > (time + 5000)) {
+                System.out.println("count : "+end);
+                start = System.currentTimeMillis() - (long) time;
                 count++;
                 end++;
 
